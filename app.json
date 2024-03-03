@@ -21,10 +21,31 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.parikshithv.p1dash"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./src/assets/fonts/TitilliumWeb-Black.ttf",
+            "./src/assets/fonts/TitilliumWeb-Bold.ttf",
+            "./src/assets/fonts/TitilliumWeb-Light.ttf",
+            "./src/assets/fonts/TitilliumWeb-ExtraLight.ttf",
+            "./src/assets/fonts/TitilliumWeb-Regular.ttf",
+            "./src/assets/fonts/TitilliumWeb-SemiBold.ttf"
+          ]
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a239cbb2-f650-4003-bec4-81c1cc93b470"
+      }
     }
   }
 }

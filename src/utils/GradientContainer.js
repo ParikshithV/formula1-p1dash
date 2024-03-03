@@ -2,13 +2,13 @@ import React from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const topGap = StatusBar.currentHeight + 25;
+export const topGap = StatusBar.currentHeight + 25;
 
 const GradientContainer = ({ children }) => {
   return (
     <View style={styles.parentBgView}>
       <LinearGradient
-        colors={["#e10600", "#000"]}
+        colors={["#e10600", "transparent"]}
         style={styles.linearGradient}
       />
       {children}

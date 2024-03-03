@@ -1,0 +1,186 @@
+f1images = {
+  drivers: {
+    Max_Verstappen:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png",
+    Sergio_Perez:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png",
+    George_Russell:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/G/GEORUS01_George_Russell/georus01.png",
+    Lewis_Hamilton:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png",
+    Charles_Leclerc:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png",
+    Carlos_Sainz:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png",
+    Oscar_Piastri:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/O/OSCPIA01_Oscar_Piastri/oscpia01.png",
+    Lando_Norris:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png",
+    Lance_Stroll:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LANSTR01_Lance_Stroll/lanstr01.png",
+    Fernando_Alonso:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/F/FERALO01_Fernando_Alonso/feralo01.png",
+    Esteban_Ocon:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/E/ESTOCO01_Esteban_Ocon/estoco01.png",
+    Pierre_Gasly:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/P/PIEGAS01_Pierre_Gasly/piegas01.png",
+    Alexander_Albon:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png",
+    Logan_Sargeant:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LOGSAR01_Logan_Sargeant/logsar01.png",
+    Daniel_Ricciardo:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/D/DANRIC01_Daniel_Ricciardo/danric01.png",
+    Yuki_Tsunoda:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png",
+    Valtteri_Bottas:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/V/VALBOT01_Valtteri_Bottas/valbot01.png",
+    Guanyu_Zhou:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/G/GUAZHO01_Guanyu_Zhou/guazho01.png",
+    Kevin_Magnussen:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/K/KEVMAG01_Kevin_Magnussen/kevmag01.png",
+    Nico_Hulkenberg:
+      "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/N/NICHUL01_Nico_Hulkenberg/nichul01.png",
+  },
+  teamCars: {
+    mercedes:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/mercedes.png",
+    alpine:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/alpine.png",
+    haas: "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/haas-f1-team.png",
+    red_bull_racing:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/red-bull-racing.png",
+    mclaren:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/mclaren.png",
+    aston_martin:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/aston-martin.png",
+    rb: "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/rb.png",
+    ferrari:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/ferrari.png",
+    kick_sauber:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/kick-sauber.png",
+    williams:
+      "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/2024/williams.png",
+  },
+  teamLogos: {
+    mercedes:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/mercedes-logo.png",
+    alpine:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/alpine-logo.png",
+    haas: "https://media.formula1.com/content/dam/fom-website/teams/2024/haas-f1-team-logo.png",
+    red_bull_racing:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/red-bull-racing-logo.png",
+    mclaren:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/mclaren-logo.png",
+    aston_martin:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/aston-martin-logo.png",
+    rb: "https://media.formula1.com/content/dam/fom-website/teams/2024/rb-logo.png",
+    ferrari:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/ferrari-logo.png",
+    kick_sauber:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/kick-sauber-logo.png",
+    williams:
+      "https://media.formula1.com/content/dam/fom-website/teams/2024/williams-logo.png",
+  },
+  tracks: {
+    Bahrain_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Bahrain_Grand_Prix.png",
+    Saudi_Arabian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Saudi_Arabian_Grand_Prix.png",
+    Australian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Australian_Grand_Prix.png",
+    Japanese_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Japanese_Grand_Prix.png",
+    Chinese_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Chinese_Grand_Prix.png",
+    Miami_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Miami_Grand_Prix.png",
+    Emilia_Romagna_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Emilia_Romagna_Grand_Prix.png",
+    Monaco_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Monaco_Grand_Prix.png",
+    Canadian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Canadian_Grand_Prix.png",
+    Spanish_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Spanish_Grand_Prix.png",
+    Austrian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Austrian_Grand_Prix.png",
+    British_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/British_Grand_Prix.png",
+    Hungarian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Hungarian_Grand_Prix.png",
+    Belgian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Belgian_Grand_Prix.png",
+    Dutch_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Dutch_Grand_Prix.png",
+    Italian_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Italian_Grand_Prix.png",
+    Azerbaijan_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Azerbaijan_Grand_Prix.png",
+    Singapore_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Singapore_Grand_Prix.png",
+    United_States_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/United_States_Grand_Prix.png",
+    Mexico_City_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Mexico_City_Grand_Prix.png",
+    São_Paulo_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/São_Paulo_Grand_Prix.png",
+    Las_Vegas_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Las_Vegas_Grand_Prix.png",
+    Qatar_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Qatar_Grand_Prix.png",
+    Abu_Dhabi_Grand_Prix:
+      "https://www.formula1.com/content/dam/fom-website/races/2024/Abu_Dhabi_Grand_Prix.png",
+  },
+};
+
+imgs = [
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Bahrain.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Saudi%20Arabia.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Australia.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Japan.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/China.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Miami.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Emilia%20Romagna.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Monaco.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Canada.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Spain.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Austria.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Great%20Britain.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Hungary.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Belgium.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Netherlands.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Italy.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Azerbaijan.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Singapore.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/United%20States.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Mexico.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Brazil.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Las%20Vegas.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Qatar.png",
+  "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Abu%20Dhabi.png",
+];
+
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Bahrain%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Saudi%20Arabia%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Australia%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Japan%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/China%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Miami%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Emilia%20Romagna%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Monaco%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Canada%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Spain%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Austria%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Great%20Britain%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Hungary%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Belgium%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Netherlands%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Italy%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Azerbaijan%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Singapore%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/United%20States%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Mexico%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Brazil%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Las%20Vegas%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Qatar%20carbon.png");
+("https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Abu%20Dhabi%20carbon.png");

@@ -1,41 +1,27 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Text } from "react-native";
-import axios from "axios";
 import ScheduleScreen from "./screens/scheduleScreen";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { fontWeight } from "./utils/strings";
+import GradientContainer from "./utils/GradientContainer";
 
 const Tab = createBottomTabNavigator();
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
+function PlaceholderScreen() {
+  return <GradientContainer />;
 }
 
 function MyTabs() {
-  useEffect(() => {
-    axios
-      .get("https://api.openf1.org/v1/sessions?year=2024")
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   const btmTabBArOpts = useMemo(() => {
     const screenOptions = {
       headerShown: false,
       tabBarStyle: {
         backgroundColor: "#000",
         borderTopWidth: 0,
-        height: 75,
+        height: 65,
         paddingBottom: 15,
       },
       tabBarActiveTintColor: "#e10600",
@@ -51,6 +37,7 @@ function MyTabs() {
           tabBarIcon: ({ focused, color, size }) => (
             <FontAwesome5 name={"calendar-alt"} color={color} size={size - 2} />
           ),
+          tabBarLabelStyle: { fontFamily: fontWeight[200] },
         }}
         name="GP Schedule"
         component={ScheduleScreen}
@@ -64,18 +51,20 @@ function MyTabs() {
               size={size + 5}
             />
           ),
+          tabBarLabelStyle: { fontFamily: fontWeight[200] },
         }}
         name="Drivers"
-        component={HomeScreen}
+        component={PlaceholderScreen}
       />
       <Tab.Screen
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <FontAwesome name={"group"} color={color} size={size - 5} />
           ),
+          tabBarLabelStyle: { fontFamily: fontWeight[200] },
         }}
         name="Teams"
-        component={HomeScreen}
+        component={PlaceholderScreen}
       />
     </Tab.Navigator>
   );
