@@ -57,13 +57,13 @@ export const groupEventsByLocation = (events, imgs) => {
     }
 
     // Sort events by startDate within each location
-    for (const location in groupedEvents) {
-      groupedEvents[location].sort((a, b) => {
-        const startDateA = moment(a.startDate);
-        const startDateB = moment(b.startDate);
-        return startDateA.diff(startDateB);
-      });
-    }
+    // for (const location in groupedEvents) {
+    //   groupedEvents[location].sort((a, b) => {
+    //     const startDateA = moment(a.startDate);
+    //     const startDateB = moment(b.startDate);
+    //     return startDateA.diff(startDateB);
+    //   });
+    // }
 
     groupedEvents[location].push(event);
   });

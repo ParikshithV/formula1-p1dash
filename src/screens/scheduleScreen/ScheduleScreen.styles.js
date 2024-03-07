@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#fff",
     textAlign: "right",
+  },
+  headerTextView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 35,
     marginBottom: 16,
   },
@@ -42,6 +47,19 @@ const styles = StyleSheet.create({
     width: 85,
     marginRight: 16,
     marginBottom: 8,
+  },
+  absoluteLoaderView: {
+    alignItems: "center",
+    justifyContent: "center",
+    ...StyleSheet.absoluteFill,
+  },
+  historyBtn: {
+    height: 35,
+    width: 35,
+    borderRadius: 50,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

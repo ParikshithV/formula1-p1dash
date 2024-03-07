@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import styles from "./ScheduleScreen.styles";
 import GradientContainer, { topGap } from "../../utils/GradientContainer";
 import { fontWeight } from "../../utils/strings";
@@ -9,16 +15,43 @@ import { trackImgs } from "../../utils/f1Imgs";
 import { groupEventsByLocation } from "../../utils/groupEventsByLocation";
 import SectionCard from "./SectionCard";
 import moment from "moment";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 const icsLink =
   "https://ics.ecal.com/ecal-sub/65e47a3c06cfae0008e8b27b/Formula%201.ics";
 
 const ScheduleScreen = () => {
   const [scheduleData, setScheduleData] = useState(null);
+  const [historyMode, setHistoryMode] = useState(false);
 
   useEffect(() => {
     !scheduleData && getScheduleData();
   }, [scheduleData]);
+
+  const filterListing = (item) => {
+    const eventsArr = item?.events || [];
+    const eventsLen = eventsArr?.length - 1;
+    const lastDate = eventsArr[eventsLen]?.endDate || 0;
+    let retVal;
+    if (historyMode) {
+      retVal = moment(lastDate).isBefore();
+    } else {
+      retVal = moment(lastDate).isAfter();
+    }
+    return retVal;
+  };
+
+  const listingData = useMemo(() => {
+    let resArr = scheduleData?.filter((item) => filterListing(item));
+    resArr.sort((a, b) => {
+      const aStartDate = a?.events?.[0]?.startDate;
+      const bStartDate = b?.events?.[0]?.startDate;
+      const startDateA = moment(aStartDate);
+      const startDateB = moment(bStartDate);
+      return startDateA.diff(startDateB);
+    });
+    return resArr;
+  }, [scheduleData, historyMode]);
 
   const getScheduleData = async () => {
     const fetchICS = async (fileUrl) => {
@@ -39,7 +72,18 @@ const ScheduleScreen = () => {
 
   const TitleTextView = () => {
     return (
-      <View>
+      <View style={styles.headerTextView}>
+        <Pressable
+          style={[
+            styles.historyBtn,
+            {
+              opacity: historyMode ? 1 : 0.5,
+            },
+          ]}
+          onPress={() => setHistoryMode((prev) => !prev)}
+        >
+          <FontAwesome5 name={"history"} color={"#fff"} size={18} />
+        </Pressable>
         <Text style={styles.headerText}>{`F1 Schedule ${moment().format(
           "YYYY"
         )}`}</Text>
@@ -51,6 +95,14 @@ const ScheduleScreen = () => {
     return <SectionCard data={data} />;
   };
 
+  const AbsoluteLoader = () => {
+    return (
+      <View style={styles.absoluteLoaderView}>
+        <ActivityIndicator size={"large"} color={"#fff"} />
+      </View>
+    );
+  };
+
   return (
     <GradientContainer>
       <FlatList
@@ -60,11 +112,12 @@ const ScheduleScreen = () => {
           paddingBottom: 16,
         }}
         fadingEdgeLength={50}
-        data={scheduleData}
+        data={listingData}
         keyExtractor={(item) => item?.location}
         renderItem={GpSection}
         ListHeaderComponent={TitleTextView}
         overScrollMode="never"
+        ListEmptyComponent={AbsoluteLoader}
       />
     </GradientContainer>
   );
