@@ -28,11 +28,11 @@ const ScheduleScreen = () => {
     !scheduleData && getScheduleData();
   }, [scheduleData]);
 
-  const filterListing = (item) => {
+  const filterListing = (item: any) => {
     const eventsArr = item?.events || [];
     const eventsLen = eventsArr?.length - 1;
     const lastDate = eventsArr[eventsLen]?.endDate || 0;
-    let retVal;
+    let retVal: boolean;
     if (historyMode) {
       retVal = moment(lastDate).isBefore();
     } else {
@@ -42,8 +42,8 @@ const ScheduleScreen = () => {
   };
 
   const listingData = useMemo(() => {
-    let resArr = scheduleData?.filter((item) => filterListing(item));
-    resArr.sort((a, b) => {
+    let resArr = scheduleData?.filter((item: object) => filterListing(item));
+    resArr?.sort((a: any, b: any) => {
       const aStartDate = a?.events?.[0]?.startDate;
       const bStartDate = b?.events?.[0]?.startDate;
       const startDateA = moment(aStartDate);
@@ -54,7 +54,7 @@ const ScheduleScreen = () => {
   }, [scheduleData, historyMode]);
 
   const getScheduleData = async () => {
-    const fetchICS = async (fileUrl) => {
+    const fetchICS = async (fileUrl: string) => {
       try {
         const response = await fetch(fileUrl);
         const data = await response.text();
@@ -91,7 +91,7 @@ const ScheduleScreen = () => {
     );
   };
 
-  const GpSection = (data) => {
+  const GpSection = (data: object) => {
     return <SectionCard data={data} />;
   };
 

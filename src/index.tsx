@@ -11,7 +11,7 @@ import GradientContainer from "./utils/GradientContainer";
 const Tab = createBottomTabNavigator();
 
 function PlaceholderScreen() {
-  return <GradientContainer />;
+  return <GradientContainer children={null} />;
 }
 
 function MyTabs() {

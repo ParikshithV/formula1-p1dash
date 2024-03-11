@@ -1,6 +1,6 @@
-import moment from "moment";
+import React from "react";
 
-function formatEventsArray(groupedEvents) {
+function formatEventsArray(groupedEvents: any[]) {
   const formattedArray = [];
 
   for (const location in groupedEvents) {
@@ -17,10 +17,10 @@ function formatEventsArray(groupedEvents) {
   return formattedArray;
 }
 
-export const groupEventsByLocation = (events, imgs) => {
-  const groupedEvents = {};
+export const groupEventsByLocation = (events: any[], imgs: any[]) => {
+  const groupedEvents: any = {};
 
-  events.forEach((event) => {
+  events.forEach((event: any) => {
     const { location } = event;
 
     // Ignore events with empty location

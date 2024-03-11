@@ -7,7 +7,7 @@ import moment from "moment";
 const SectionCard = ({ data }) => {
   const { location, trackImg, events } = data?.item;
 
-  const formatDate = (date) => {
+  const formatDate = (date: string) => {
     const retDate = moment(date).format("ddd, MMM Do");
     return retDate;
   };
@@ -24,7 +24,7 @@ const SectionCard = ({ data }) => {
   }, []);
 
   return (
-    <View resizeMode="cover" style={styles.sectionCard}>
+    <View style={styles.sectionCard}>
       <View style={{ flex: 1 }}>
         <Text style={styles.sessionHeaderText}>{location}</Text>
         <Text style={styles.sessionGpText}>

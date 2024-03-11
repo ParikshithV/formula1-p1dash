@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -16,11 +16,13 @@ const GradientContainer = ({ children }) => {
   );
 };
 
+interface stylesheetProp {}
+
 const styles = StyleSheet.create({
   linearGradient: {
     width: "100%",
     height: topGap,
-    ...StyleSheet.absoluteFill,
+    ...(StyleSheet.absoluteFill as object),
   },
   parentBgView: {
     backgroundColor: "#000",
