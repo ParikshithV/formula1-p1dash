@@ -18,19 +18,27 @@ const styles = StyleSheet.create({
   },
   sessionHeaderText: {
     fontFamily: fontWeight[400],
-    fontSize: 21,
+    fontSize: 18,
     color: "#fff",
+    marginBottom: 12,
   },
   sessionGpText: {
     fontFamily: fontWeight[400],
     fontSize: 14,
     color: "#969696",
-    marginVertical: 12,
+    marginBottom: 12,
+  },
+  timezoneText: {
+    fontFamily: fontWeight[400],
+    fontSize: 14,
+    color: "#969696",
+    marginTop: 2,
+    textAlign: "right",
   },
   sprintWeekendText: {
     fontFamily: fontWeight[300],
     fontSize: 12,
-    color: "#696969",
+    color: "#ff3b38",
   },
   sectionCard: {
     width: "100%",
@@ -46,6 +54,7 @@ const styles = StyleSheet.create({
     height: 85,
     width: 85,
     marginRight: 16,
+    marginLeft: 8,
     marginBottom: 8,
   },
   absoluteLoaderView: {
@@ -60,6 +69,23 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     justifyContent: "center",
     alignItems: "center",
+  },
+  dayDetailsHeader: {
+    fontFamily: fontWeight[600],
+    fontSize: 14,
+    color: "#696969",
+    marginTop: 12,
+  },
+  dayDetailsSubHeader: {
+    fontFamily: fontWeight[600],
+    fontSize: 16,
+    color: "#ededed",
+    marginTop: 2,
+  },
+  DetailsViewRow: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: "#fff",
+    marginBottom: 16,
   },
 });
 

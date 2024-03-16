@@ -23,8 +23,10 @@ export const groupEventsByLocation = (events: any[], imgs: any[]) => {
   events.forEach((event: any) => {
     const { location } = event;
 
-    // Ignore events with empty location
-    if (!location) {
+    const indexOfHyp = event.summary.indexOf(" - ");
+    const gpTitle = event.summary.slice(3, indexOfHyp);
+
+    if (!gpTitle || gpTitle.includes("in your")) {
       return;
     }
 
@@ -52,8 +54,8 @@ export const groupEventsByLocation = (events: any[], imgs: any[]) => {
     }
 
     // Group events by location
-    if (!groupedEvents[location]) {
-      groupedEvents[location] = [];
+    if (!groupedEvents[gpTitle]) {
+      groupedEvents[gpTitle] = [];
     }
 
     // Sort events by startDate within each location
@@ -65,7 +67,7 @@ export const groupEventsByLocation = (events: any[], imgs: any[]) => {
     //   });
     // }
 
-    groupedEvents[location].push(event);
+    groupedEvents[gpTitle].push(event);
   });
 
   return formatEventsArray(groupedEvents);

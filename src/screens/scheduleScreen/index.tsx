@@ -16,6 +16,7 @@ import { groupEventsByLocation } from "../../utils/groupEventsByLocation";
 import SectionCard from "./SectionCard";
 import moment from "moment";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import Animated from "react-native-reanimated";
 
 const icsLink =
   "https://ics.ecal.com/ecal-sub/65e47a3c06cfae0008e8b27b/Formula%201.ics";
@@ -23,10 +24,13 @@ const icsLink =
 const ScheduleScreen = () => {
   const [scheduleData, setScheduleData] = useState(null);
   const [historyMode, setHistoryMode] = useState(false);
+  const [activeWndIdx, setActiveWndIdx] = useState(0);
 
   useEffect(() => {
     !scheduleData && getScheduleData();
   }, [scheduleData]);
+
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const filterListing = (item: any) => {
     const eventsArr = item?.events || [];
@@ -84,15 +88,23 @@ const ScheduleScreen = () => {
         >
           <FontAwesome5 name={"history"} color={"#fff"} size={18} />
         </Pressable>
-        <Text style={styles.headerText}>{`F1 Schedule ${moment().format(
-          "YYYY"
-        )}`}</Text>
+        <View>
+          <Text style={styles.headerText}>{`F1 Schedule ${moment().format(
+            "YYYY"
+          )}`}</Text>
+          <Text style={styles.timezoneText}>TimeZone : {timeZone}</Text>
+        </View>
       </View>
     );
   };
 
   const GpSection = (data: object) => {
-    return <SectionCard data={data} />;
+    const index = data.index;
+    return (
+      <Pressable onPress={() => setActiveWndIdx(index as number)}>
+        <SectionCard data={data} isActive={activeWndIdx === index} />
+      </Pressable>
+    );
   };
 
   const AbsoluteLoader = () => {
@@ -105,7 +117,7 @@ const ScheduleScreen = () => {
 
   return (
     <GradientContainer>
-      <FlatList
+      <Animated.FlatList
         style={{
           paddingHorizontal: 16,
           marginTop: -15,
