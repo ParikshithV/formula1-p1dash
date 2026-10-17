@@ -1,47 +1,57 @@
 {
   "expo": {
-    "name": "p1dash",
+    "name": "P1 Dash",
     "slug": "p1dash",
-    "version": "1.0.0",
+    "version": "2.0.0",
+    "scheme": "p1dash",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0B0B0F",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.parikshithv.p1dash"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0B0B0F"
       },
       "package": "com.parikshithv.p1dash"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "output": "single"
     },
     "plugins": [
+      "expo-router",
+      "expo-web-browser",
+      "expo-image",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "imageWidth": 240,
+          "resizeMode": "contain",
+          "backgroundColor": "#0B0B0F"
+        }
+      ],
       [
         "expo-font",
         {
           "fonts": [
-            "./src/assets/fonts/TitilliumWeb-Black.ttf",
-            "./src/assets/fonts/TitilliumWeb-Bold.ttf",
-            "./src/assets/fonts/TitilliumWeb-Light.ttf",
-            "./src/assets/fonts/TitilliumWeb-ExtraLight.ttf",
-            "./src/assets/fonts/TitilliumWeb-Regular.ttf",
-            "./src/assets/fonts/TitilliumWeb-SemiBold.ttf"
+            "./assets/fonts/TitilliumWeb-Light.ttf",
+            "./assets/fonts/TitilliumWeb-Regular.ttf",
+            "./assets/fonts/TitilliumWeb-SemiBold.ttf",
+            "./assets/fonts/TitilliumWeb-Bold.ttf",
+            "./assets/fonts/TitilliumWeb-Black.ttf"
           ]
         }
       ]
     ],
+    "experiments": {
+      "typedRoutes": true
+    },
     "extra": {
       "eas": {
         "projectId": "a239cbb2-f650-4003-bec4-81c1cc93b470"
