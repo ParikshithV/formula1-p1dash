@@ -1,12 +1,14 @@
-import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import * as WebBrowser from "expo-web-browser";
 import { memo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { NewsItem } from "../api/types";
-import { useArticleImage } from "../hooks/queries";
-import { colors, radius, space, type } from "../theme";
-import { Card, Skeleton } from "./ui";
+import { timeAgo } from "../lib/format";
+import { colors, fonts, space, tones, type } from "../theme";
+import { NewsCover } from "./art/NewsCover";
+import { PressableScale } from "./motion";
+import { PillButton, RowAffordance } from "./ui";
+
+const t = tones.dark;
 
 export const openArticle = (url: string) =>
   WebBrowser.openBrowserAsync(url, {
@@ -15,61 +17,52 @@ export const openArticle = (url: string) =>
     presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
   }).catch(() => {});
 
-function NewsCardBase({ item, featured }: { item: NewsItem; featured?: boolean }) {
-  const { data: image, isPending } = useArticleImage(item.link);
+const age = (item: NewsItem) => (item.published ? timeAgo(new Date(item.published)) : "Latest");
 
-  if (featured) {
-    return (
-      <Card onPress={() => openArticle(item.link)} style={styles.featured}>
-        {isPending ? (
-          <Skeleton height={220} style={styles.noRadius} />
-        ) : (
-          <Image source={image ?? undefined} style={styles.featuredImage} contentFit="cover" transition={300} />
-        )}
-        <LinearGradient colors={["transparent", "rgba(11,11,15,0.95)"]} style={styles.featuredShade} />
-        <View style={styles.featuredText}>
-          <Text style={[type.caption, styles.tag]}>Latest</Text>
-          <Text style={type.title} numberOfLines={3}>
-            {item.title}
-          </Text>
-          <Text style={[type.label, styles.desc]} numberOfLines={2}>
-            {item.description}
-          </Text>
-        </View>
-      </Card>
-    );
-  }
-
+/** Lead story: generated cover band, then the headline set large below it. */
+function FeaturedNews({ item }: { item: NewsItem }) {
   return (
-    <Card onPress={() => openArticle(item.link)} style={styles.compact}>
-      <View style={styles.compactText}>
-        <Text style={type.heading} numberOfLines={3}>
-          {item.title}
-        </Text>
-        <Text style={[type.label, styles.desc]} numberOfLines={2}>
-          {item.description}
-        </Text>
+    <PressableScale onPress={() => openArticle(item.link)} scaleTo={0.985} style={styles.featured}>
+      <View style={styles.cover}>
+        <NewsCover kicker="Latest" />
       </View>
-      {isPending ? (
-        <Skeleton height={84} width={96} />
-      ) : image ? (
-        <Image source={image} style={styles.thumb} contentFit="cover" transition={300} />
-      ) : null}
-    </Card>
+      <Text style={[type.label, { color: colors.accent }]}>Latest · {age(item)}</Text>
+      <Text style={styles.featuredTitle} numberOfLines={4}>
+        {item.title}
+      </Text>
+      <Text style={[type.body, { color: t.muted }]} numberOfLines={3}>
+        {item.description}
+      </Text>
+      <PillButton label="Read story" icon="arrow-up-outline" onPress={() => openArticle(item.link)} style={styles.read} />
+    </PressableScale>
   );
+}
+
+/** Text-only timeline row: age in the caption column, headline on the right. */
+function NewsRow({ item }: { item: NewsItem }) {
+  return (
+    <PressableScale onPress={() => openArticle(item.link)} scaleTo={0.98} accessibilityRole="link" style={styles.row}>
+      <Text style={[type.label, styles.meta]}>{age(item)}</Text>
+      <Text style={[type.headline, styles.title]} numberOfLines={3}>
+        {item.title}
+      </Text>
+      <RowAffordance external />
+    </PressableScale>
+  );
+}
+
+function NewsCardBase({ item, featured }: { item: NewsItem; featured?: boolean }) {
+  return featured ? <FeaturedNews item={item} /> : <NewsRow item={item} />;
 }
 
 export const NewsCard = memo(NewsCardBase);
 
 const styles = StyleSheet.create({
-  featured: { height: 340, justifyContent: "flex-end", marginBottom: space.md },
-  featuredImage: { ...StyleSheet.absoluteFill },
-  featuredShade: { ...StyleSheet.absoluteFill, top: "30%" },
-  featuredText: { padding: space.lg, gap: 4 },
-  noRadius: { ...StyleSheet.absoluteFill, borderRadius: 0, height: "100%" },
-  tag: { color: colors.accent },
-  desc: { marginTop: 2 },
-  compact: { flexDirection: "row", gap: space.md, padding: space.md, marginBottom: space.sm + 2, alignItems: "center" },
-  compactText: { flex: 1, gap: 2 },
-  thumb: { width: 96, height: 84, borderRadius: radius.md, backgroundColor: colors.surfaceAlt },
+  featured: { gap: space.md, marginBottom: space.xl },
+  cover: { marginBottom: space.md },
+  featuredTitle: { fontFamily: fonts.display, fontSize: 30, lineHeight: 34, color: t.text },
+  row: { flexDirection: "row", alignItems: "center", gap: space.md, paddingVertical: space.lg },
+  meta: { width: 56, alignSelf: "flex-start", paddingTop: 4, color: t.dim, textAlign: "right" },
+  title: { flex: 1, color: t.text },
+  read: { marginTop: space.xs },
 });

@@ -1,10 +1,10 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image } from "expo-image";
 import { memo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { Constructor, Driver } from "../api/types";
-import { driverHeadshot, teamColor, teamMeta } from "../lib/assets";
-import { colors, fonts, podiumColor, radius, space, type } from "../theme";
+import { fitMono, useLayout } from "../hooks/useLayout";
+import { teamColor, teamMeta } from "../lib/assets";
+import { colors, fonts, space, tones, type, type Tone } from "../theme";
 
 interface Props {
   position: string;
@@ -14,36 +14,36 @@ interface Props {
   secondary?: string;
   fastestLap?: boolean;
   highlight?: boolean;
+  tone?: Tone;
 }
 
-function ResultRowBase({ position, driver, constructor, primary, secondary, fastestLap, highlight }: Props) {
-  const color = teamColor(constructor.constructorId);
+function ResultRowBase({ position, driver, constructor, primary, secondary, fastestLap, highlight, tone = "light" }: Props) {
+  const t = tones[tone];
   const pos = Number(position);
+  const { inner } = useLayout();
+  // Position column and a right column wide enough for "1:42:00.785"; the name takes the rest.
+  const nameSize = fitMono(driver.familyName + (fastestLap ? "  " : ""), inner - 32 - 112 - space.md * 2, 20);
   return (
-    <View style={[styles.row, highlight && { backgroundColor: `${color}1A` }]}>
-      <Text style={[styles.pos, pos <= 3 && { color: podiumColor(pos) }]}>{Number.isNaN(pos) ? position : pos}</Text>
-      <View style={[styles.stripe, { backgroundColor: color }]} />
-      {pos <= 3 ? (
-        <Image
-          source={driverHeadshot(driver, constructor.constructorId, 120)}
-          style={[styles.avatar, { backgroundColor: `${color}33` }]}
-          contentFit="cover"
-          contentPosition="top"
-        />
-      ) : null}
+    <View style={[styles.row, highlight && { backgroundColor: t.band }]}>
+      <Text style={[styles.pos, { color: pos <= 3 ? t.text : t.dim }]}>
+        {Number.isNaN(pos) ? position : String(pos).padStart(2, "0")}
+      </Text>
       <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={1}>
+        <Text style={[type.value, styles.name, { fontSize: nameSize, lineHeight: nameSize * 1.2, color: t.text }]} numberOfLines={1}>
           {driver.familyName}
           {fastestLap ? "  " : ""}
-          {fastestLap ? <Ionicons name="timer-outline" size={13} color="#B36BFF" /> : null}
+          {fastestLap ? <Ionicons name="timer-outline" size={14} color={colors.accent} /> : null}
         </Text>
-        <Text style={styles.team} numberOfLines={1}>
-          {teamMeta(constructor.constructorId).shortName || constructor.name}
-        </Text>
+        <View style={styles.team}>
+          <View style={[styles.swatch, { backgroundColor: teamColor(constructor.constructorId) }]} />
+          <Text style={[type.label, { color: t.muted }]} numberOfLines={1}>
+            {teamMeta(constructor.constructorId).shortName || constructor.name}
+          </Text>
+        </View>
       </View>
       <View style={styles.right}>
-        <Text style={styles.primary}>{primary}</Text>
-        {secondary ? <Text style={styles.secondary}>{secondary}</Text> : null}
+        <Text style={[styles.primary, { color: t.text }]}>{primary}</Text>
+        {secondary ? <Text style={[type.label, { color: t.muted }]}>{secondary}</Text> : null}
       </View>
     </View>
   );
@@ -55,19 +55,16 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: space.sm + 2,
-    paddingVertical: space.sm + 2,
-    paddingHorizontal: space.md,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    gap: space.md,
+    paddingVertical: space.md,
+    marginHorizontal: -space.gutter,
+    paddingHorizontal: space.gutter,
   },
-  pos: { width: 26, fontFamily: fonts.bold, fontSize: 15, color: colors.textMuted, textAlign: "center", fontVariant: ["tabular-nums"] },
-  stripe: { width: 3, height: 26, borderRadius: radius.sm },
-  avatar: { width: 34, height: 34, borderRadius: 17 },
-  info: { flex: 1 },
-  name: { fontFamily: fonts.bold, fontSize: 15, color: colors.text, textTransform: "uppercase" },
-  team: { ...type.label, fontSize: 12 },
-  right: { alignItems: "flex-end" },
-  primary: { fontFamily: fonts.semibold, fontSize: 14, color: colors.text, fontVariant: ["tabular-nums"] },
-  secondary: { ...type.caption, fontSize: 10, letterSpacing: 0.5 },
+  pos: { width: 32, fontFamily: fonts.mono, fontSize: 20 },
+  info: { flex: 1, gap: 2 },
+  name: { fontSize: 20, lineHeight: 24, textTransform: "uppercase" },
+  team: { flexDirection: "row", alignItems: "center", gap: 6 },
+  swatch: { width: 8, height: 8 },
+  right: { alignItems: "flex-end", gap: 2 },
+  primary: { fontFamily: fonts.mono, fontSize: 16 },
 });

@@ -36,26 +36,14 @@ export async function fetchNews(): Promise<NewsItem[]> {
   return items
     .map((item) => {
       const link = tag(item, "link");
+      const date = new Date(tag(item, "pubDate"));
       return {
         id: tag(item, "guid") || link,
         title: tag(item, "title"),
         description: tag(item, "description"),
         link,
+        published: Number.isNaN(date.getTime()) ? undefined : date.toISOString(),
       };
     })
     .filter((item) => item.title && item.link);
-}
-
-/**
- * The F1 RSS feed carries no imagery, so the hero image is read from the
- * article's Open Graph tag. Results are cached indefinitely by the caller.
- */
-export async function fetchArticleImage(articleUrl: string): Promise<string | null> {
-  const res = await fetch(articleUrl);
-  if (!res.ok) return null;
-  const html = await res.text();
-  const match =
-    html.match(/property="og:image"\s+content="([^"]+)"/) ??
-    html.match(/content="([^"]+)"\s+property="og:image"/);
-  return match ? match[1].replace("w_2048", "w_960") : null;
 }

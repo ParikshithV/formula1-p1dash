@@ -2,12 +2,17 @@
 
 const dayMonth = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short" });
 const weekday = new Intl.DateTimeFormat(undefined, { weekday: "short" });
-const clock = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" });
+const clocks = {
+  system: new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }),
+  "12h": new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit", hourCycle: "h12" }),
+  "24h": new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }),
+};
 const monthShort = new Intl.DateTimeFormat(undefined, { month: "short" });
 
 export const formatDayMonth = (d: Date) => dayMonth.format(d);
 export const formatWeekday = (d: Date) => weekday.format(d);
-export const formatTime = (d: Date) => clock.format(d);
+/** Session clock time in the device timezone, honouring the user's 12/24-hour preference. */
+export const formatTime = (d: Date, clock: keyof typeof clocks = "system") => clocks[clock].format(d);
 export const formatMonth = (d: Date) => monthShort.format(d).toUpperCase();
 
 export function formatDateRange(start: Date, end: Date) {
@@ -46,6 +51,15 @@ export function splitCountdown(ms: number): Countdown {
     seconds: s % 60,
     done: clamped === 0,
   };
+}
+
+/** "5m ago", "3h ago", "2d ago" – compact age for news items. */
+export function timeAgo(d: Date, now = Date.now()) {
+  const mins = Math.max(0, Math.round((now - d.getTime()) / 60_000));
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.round(hours / 24)}d ago`;
 }
 
 export const pad2 = (n: number) => String(n).padStart(2, "0");

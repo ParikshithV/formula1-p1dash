@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   fetchConstructorStandings,
+  fetchDriverResults,
   fetchDriverStandings,
   fetchQualifying,
   fetchRaceResults,
@@ -9,7 +10,8 @@ import {
   fetchSprintResults,
   type Season,
 } from "../api/jolpica";
-import { fetchArticleImage, fetchNews } from "../api/news";
+import { fetchNews } from "../api/news";
+import { NEWS_SUPPORTED } from "../lib/platform";
 
 const HOUR = 3600_000;
 
@@ -46,6 +48,14 @@ export const useQualifying = (season: Season, round: string, enabled = true) =>
 export const useDriverStandings = (season: Season = "current") =>
   useQuery({ queryKey: ["driverStandings", season], queryFn: () => fetchDriverStandings(season), staleTime: HOUR });
 
+export const useDriverResults = (driverId: string, season: Season = "current") =>
+  useQuery({
+    queryKey: ["driverResults", season, driverId],
+    queryFn: () => fetchDriverResults(season, driverId),
+    enabled: !!driverId,
+    staleTime: HOUR,
+  });
+
 export const useConstructorStandings = (season: Season = "current") =>
   useQuery({
     queryKey: ["constructorStandings", season],
@@ -54,16 +64,7 @@ export const useConstructorStandings = (season: Season = "current") =>
   });
 
 export const useNews = () =>
-  useQuery({ queryKey: ["news"], queryFn: fetchNews, staleTime: 15 * 60_000 });
-
-export const useArticleImage = (url: string) =>
-  useQuery({
-    queryKey: ["articleImage", url],
-    queryFn: () => fetchArticleImage(url),
-    staleTime: Infinity,
-    gcTime: Infinity,
-    retry: false,
-  });
+  useQuery({ queryKey: ["news"], queryFn: fetchNews, staleTime: 15 * 60_000, enabled: NEWS_SUPPORTED });
 
 /**
  * Standings list every constructor a driver raced for, in no guaranteed order, so the

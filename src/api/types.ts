@@ -90,4 +90,6 @@ export interface NewsItem {
   title: string;
   description: string;
   link: string;
+  /** ISO timestamp, when the feed provides one. */
+  published?: string;
 }

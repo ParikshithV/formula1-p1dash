@@ -1,51 +1,70 @@
-import { FlatList, Platform, RefreshControl, StyleSheet, View } from "react-native";
+import { Redirect } from "expo-router";
+import { RefreshControl, StyleSheet, Text, View } from "react-native";
+import Animated from "react-native-reanimated";
+import { Appear, useScrollY } from "../../src/components/motion";
 import { NewsCard } from "../../src/components/NewsCard";
-import { ScreenGlow, ScreenHeader } from "../../src/components/ScreenHeader";
-import { ErrorState, Skeleton } from "../../src/components/ui";
+import { TopBar, useTopBarSpace } from "../../src/components/TopBar";
+import { BigTitle, ErrorState, Skeleton } from "../../src/components/ui";
 import { useNews } from "../../src/hooks/queries";
 import { useRefresh } from "../../src/hooks/useRefresh";
-import { colors, space } from "../../src/theme";
+import { NEWS_SUPPORTED } from "../../src/lib/platform";
+import { colors, frameStyle, space, type } from "../../src/theme";
 
 export default function NewsScreen() {
+  // formula1.com sends no CORS headers, so the feed can't be read from a browser.
+  if (!NEWS_SUPPORTED) return <Redirect href="/" />;
+  return <NewsFeed />;
+}
+
+function NewsFeed() {
   const news = useNews();
   const { refreshing, onRefresh } = useRefresh();
+  const { scrollY, onScroll } = useScrollY();
+  const top = useTopBarSpace();
 
   return (
     <View style={styles.screen}>
-      <ScreenGlow />
-      <FlatList
+      <Animated.FlatList
         data={news.data ?? []}
         keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => <NewsCard item={item} featured={index === 0} />}
-        contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.text} />}
-        ListHeaderComponent={<ScreenHeader eyebrow="From formula1.com" title="Paddock news" />}
+        renderItem={({ item, index }) => (
+          <Appear index={index}>
+            <NewsCard item={item} featured={index === 0} />
+          </Appear>
+        )}
+        onScroll={onScroll}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        contentContainerStyle={[styles.content, frameStyle, { paddingTop: top, paddingBottom: space.xxl }]}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.text} progressViewOffset={top} />}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <BigTitle text="Paddock" />
+            <Text style={[type.label, styles.caption]}>Stories from formula1.com</Text>
+          </View>
+        }
         ListEmptyComponent={
           news.isPending ? (
             <View style={styles.skeletons}>
-              <Skeleton height={340} />
+              <Skeleton height={260} />
               {Array.from({ length: 4 }, (_, i) => (
-                <Skeleton key={i} height={108} />
+                <Skeleton key={i} height={56} />
               ))}
             </View>
           ) : (
-            <ErrorState
-              message={
-                Platform.OS === "web"
-                  ? "formula1.com doesn't allow browser requests (CORS). The news feed works in the iOS and Android apps."
-                  : "Couldn't load the news feed."
-              }
-              onRetry={Platform.OS === "web" ? undefined : () => news.refetch()}
-            />
+            <ErrorState message="Couldn't load the news feed." onRetry={() => news.refetch()} />
           )
         }
       />
+      <TopBar scrollY={scrollY} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  content: { paddingHorizontal: space.lg, paddingBottom: space.xxl },
-  skeletons: { gap: space.sm + 2 },
+  content: { paddingHorizontal: space.gutter },
+  header: { marginBottom: space.xl },
+  caption: { color: colors.muted, marginTop: space.sm },
+  skeletons: { gap: space.lg },
 });

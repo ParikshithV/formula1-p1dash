@@ -1,11 +1,10 @@
-import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import type { DriverStanding } from "../api/types";
-import { driverHeadshot, teamColor, teamMeta } from "../lib/assets";
-import { colors, fonts, space, type } from "../theme";
-import { Card } from "./ui";
+import { teamColor, teamMeta } from "../lib/assets";
+import { fonts, space, tones, type } from "../theme";
+import { DriverRender } from "./art/Render";
+import { Appear } from "./motion";
+import { Field, FieldRow } from "./ui";
 
 interface Props {
   standing: DriverStanding;
@@ -13,60 +12,57 @@ interface Props {
   leaderPoints: number;
 }
 
-/** Hero card for the user's followed driver. */
+/** Followed driver: dark band with the race number set large behind the driver's portrait. */
 export function DriverSpotlight({ standing, constructorId, leaderPoints }: Props) {
-  const color = teamColor(constructorId);
   const gap = leaderPoints - Number(standing.points);
-  const stats = [
-    { label: "Position", value: `P${standing.positionText}` },
-    { label: "Points", value: standing.points },
-    { label: "Wins", value: standing.wins },
-    { label: "To leader", value: gap === 0 ? "—" : `-${gap}` },
-  ];
-
   return (
-    <Card onPress={() => router.navigate("/standings")} style={styles.card}>
-      <LinearGradient colors={[`${color}55`, colors.surface]} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} style={StyleSheet.absoluteFill} />
-      <Text style={styles.number}>{standing.Driver.permanentNumber}</Text>
-      <Image
-        source={driverHeadshot(standing.Driver, constructorId, 400)}
-        style={styles.headshot}
-        contentFit="cover"
-        contentPosition="top"
-        transition={300}
-      />
-      <View style={styles.body}>
-        <Text style={[type.caption, { color }]}>Your driver · {teamMeta(constructorId).shortName}</Text>
-        <Text style={styles.given}>{standing.Driver.givenName}</Text>
-        <Text style={styles.family}>{standing.Driver.familyName}</Text>
-        <View style={styles.stats}>
-          {stats.map((s) => (
-            <View key={s.label}>
-              <Text style={styles.statValue}>{s.value}</Text>
-              <Text style={styles.statLabel}>{s.label}</Text>
-            </View>
-          ))}
+    <View>
+      <View style={styles.band}>
+        <Text style={styles.number}>{standing.Driver.permanentNumber}</Text>
+        <Appear style={styles.helmetWrap}>
+          <DriverRender driverId={standing.Driver.driverId} constructorId={constructorId} style={styles.helmet} />
+        </Appear>
+        <View style={styles.name}>
+          <View style={styles.teamRow}>
+            <View style={[styles.swatch, { backgroundColor: teamColor(constructorId) }]} />
+            <Text style={[type.label, { color: tones.dark.muted }]}>{teamMeta(constructorId).shortName}</Text>
+          </View>
+          <Text style={[type.body, { color: tones.dark.muted }]}>{standing.Driver.givenName}</Text>
+          <Text style={[type.heading, styles.family]}>{standing.Driver.familyName}</Text>
         </View>
       </View>
-    </Card>
+      <FieldRow>
+        <Field label="Position" value={`P${standing.positionText}`} />
+        <Field label="Points" value={standing.points} />
+        <Field label="Wins" value={standing.wins} />
+        <Field label="To leader" value={gap === 0 ? "—" : `-${gap}`} />
+      </FieldRow>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { minHeight: 190 },
+  band: {
+    marginHorizontal: -space.gutter,
+    height: 220,
+    backgroundColor: tones.dark.band,
+    marginBottom: space.xl,
+    overflow: "hidden",
+    justifyContent: "flex-end",
+  },
   number: {
     position: "absolute",
-    right: 12,
-    top: -8,
-    fontFamily: fonts.black,
-    fontSize: 120,
-    color: "rgba(255,255,255,0.06)",
+    left: space.gutter - 6,
+    top: -18,
+    fontFamily: fonts.mono,
+    fontSize: 170,
+    lineHeight: 190,
+    color: "#262626",
   },
-  headshot: { position: "absolute", right: 0, bottom: 0, width: 170, height: 190 },
-  body: { padding: space.lg, gap: 0, maxWidth: "70%" },
-  given: { fontFamily: fonts.regular, fontSize: 18, color: colors.textMuted, marginTop: space.sm, lineHeight: 22 },
-  family: { fontFamily: fonts.black, fontSize: 26, color: colors.text, textTransform: "uppercase", lineHeight: 30 },
-  stats: { flexDirection: "row", gap: space.lg, marginTop: space.lg },
-  statValue: { fontFamily: fonts.bold, fontSize: 17, color: colors.text, fontVariant: ["tabular-nums"] },
-  statLabel: { ...type.caption, fontSize: 9 },
+  helmetWrap: { position: "absolute", right: space.md, bottom: 0 },
+  helmet: { height: 195 },
+  name: { padding: space.gutter, gap: 2, maxWidth: "62%" },
+  teamRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: space.sm },
+  swatch: { width: 8, height: 8 },
+  family: { color: tones.dark.text, textTransform: "uppercase" },
 });

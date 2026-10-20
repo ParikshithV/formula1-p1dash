@@ -7,7 +7,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "backgroundColor": "#0B0B0F",
+    "backgroundColor": "#111111",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.parikshithv.p1dash"
@@ -15,7 +15,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0B0B0F"
+        "backgroundColor": "#111111"
       },
       "package": "com.parikshithv.p1dash"
     },
@@ -26,26 +26,30 @@
     "plugins": [
       "expo-router",
       "expo-web-browser",
-      "expo-image",
       [
         "expo-splash-screen",
         {
           "image": "./assets/splash.png",
           "imageWidth": 240,
           "resizeMode": "contain",
-          "backgroundColor": "#0B0B0F"
+          "backgroundColor": "#111111"
         }
       ],
       [
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/TitilliumWeb-Light.ttf",
-            "./assets/fonts/TitilliumWeb-Regular.ttf",
-            "./assets/fonts/TitilliumWeb-SemiBold.ttf",
-            "./assets/fonts/TitilliumWeb-Bold.ttf",
-            "./assets/fonts/TitilliumWeb-Black.ttf"
+            "./assets/fonts/ShareTechMono-Regular.ttf",
+            "./assets/fonts/ShareTech-Regular.ttf",
+            "./assets/fonts/Inter-Regular.ttf",
+            "./assets/fonts/Inter-Medium.ttf"
           ]
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#EC1C0E"
         }
       ]
     ],

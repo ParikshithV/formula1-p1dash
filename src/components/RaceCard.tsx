@@ -1,13 +1,14 @@
-import { Image } from "expo-image";
 import { router } from "expo-router";
 import { memo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { Race, RaceResult } from "../api/types";
-import { countryFlag, teamColor, trackOutline } from "../lib/assets";
-import { formatMonth } from "../lib/format";
-import { getSessions, isSprintWeekend } from "../lib/race";
-import { colors, fonts, podiumColor, radius, space, type } from "../theme";
-import { Badge, Card } from "./ui";
+import { useLayout } from "../hooks/useLayout";
+import { pad2 } from "../lib/format";
+import { getSessions, isSprintWeekend, shortRaceName } from "../lib/race";
+import { colors, fonts, space, tones, type } from "../theme";
+import { TrackRender } from "./art/Render";
+import { PressableScale } from "./motion";
+import { RowAffordance } from "./ui";
 
 interface Props {
   race: Race;
@@ -16,79 +17,68 @@ interface Props {
   completed?: boolean;
 }
 
+const t = tones.dark;
+
+/**
+ * Timeline entry: a small right-aligned caption column and a big mono date with a slash.
+ * The next race is lit in white on a band with its circuit; the rest recede into grey.
+ */
 function RaceCardBase({ race, podium, isNext, completed }: Props) {
   const sessions = getSessions(race);
   const first = sessions[0].start;
-  const last = sessions[sessions.length - 1].start;
+  const winner = podium?.[0];
+  const color = isNext ? t.text : completed ? t.dim : t.muted;
+  const { fit, compact } = useLayout();
+
+  const caption = isNext ? "Next race" : winner ? "Winner" : `Round ${race.round}`;
+  const detail = winner ? `${winner.Driver.givenName} ${winner.Driver.familyName}` : race.Circuit.Location.locality;
 
   return (
-    <Card
+    <PressableScale
       onPress={() => router.push(`/race/${race.round}`)}
-      style={[styles.card, isNext && styles.next, completed && styles.completed]}
+      scaleTo={0.98}
+      accessibilityRole="link"
+      accessibilityLabel={`Round ${race.round}, ${race.raceName}`}
+      style={[styles.row, isNext && styles.next]}
     >
-      <View style={styles.date}>
-        <Text style={styles.days}>
-          {first.getDate()}
-          {first.getDate() !== last.getDate() ? `–${last.getDate()}` : ""}
-        </Text>
-        <Text style={styles.month}>{formatMonth(last)}</Text>
-      </View>
-
-      <View style={styles.divider} />
-
-      <View style={styles.body}>
-        <View style={styles.titleRow}>
-          <Text style={type.caption}>Round {race.round}</Text>
-          {isNext ? <Badge label="Next" /> : null}
-          {isSprintWeekend(race) ? <Badge label="Sprint" color={colors.gold} /> : null}
+      {isNext ? (
+        <View pointerEvents="none" style={styles.track}>
+          <TrackRender circuitId={race.Circuit.circuitId} style={styles.trackImage} />
         </View>
-        <Text style={type.heading} numberOfLines={1}>
-          {countryFlag(race.Circuit.Location.country)} {race.raceName.replace("Grand Prix", "GP")}
+      ) : null}
+      <View style={[styles.meta, { width: compact ? 76 : 96 }]}>
+        <Text style={[type.label, styles.right, { color: isNext ? colors.accent : t.dim }]}>{caption}</Text>
+        <Text style={[type.body, styles.right, { color: isNext ? t.text : t.muted }]} numberOfLines={2}>
+          {detail}
         </Text>
-        {podium?.length ? (
-          <View style={styles.podium}>
-            {podium.slice(0, 3).map((r) => (
-              <View key={r.Driver.driverId} style={styles.podiumChip}>
-                <Text style={[styles.podiumPos, { color: podiumColor(Number(r.position)) }]}>P{r.position}</Text>
-                <View style={[styles.podiumDot, { backgroundColor: teamColor(r.Constructor.constructorId) }]} />
-                <Text style={styles.podiumCode}>{r.Driver.code ?? r.Driver.familyName.slice(0, 3).toUpperCase()}</Text>
-              </View>
-            ))}
-          </View>
-        ) : (
-          <Text style={type.label} numberOfLines={1}>
-            {race.Circuit.circuitName}
-          </Text>
-        )}
       </View>
-
-      <Image
-        source={trackOutline(race.Circuit.circuitId)}
-        style={[styles.track, completed && styles.trackDim]}
-        contentFit="contain"
-        transition={200}
-      />
-    </Card>
+      <View style={styles.titles}>
+        <Text style={[styles.date, { fontSize: fit(52), lineHeight: fit(56), color }]} numberOfLines={1}>
+          {pad2(first.getDate())}.{pad2(first.getMonth() + 1)}/
+        </Text>
+        <Text style={[type.value, styles.name, { fontSize: fit(18), lineHeight: fit(22), color }]} numberOfLines={1}>
+          R{race.round} {shortRaceName(race).toUpperCase()}
+          {isSprintWeekend(race) ? <Text style={{ color: isNext ? colors.accent : color }}> ·S</Text> : null}
+        </Text>
+      </View>
+      <View style={styles.chevron}>
+        <RowAffordance color={isNext ? t.text : t.dim} />
+      </View>
+    </PressableScale>
   );
 }
 
 export const RaceCard = memo(RaceCardBase);
 
 const styles = StyleSheet.create({
-  card: { flexDirection: "row", alignItems: "center", padding: space.md, gap: space.md, marginBottom: space.sm + 2 },
-  next: { borderColor: colors.accent, borderWidth: 1, backgroundColor: "#1A1013" },
-  completed: { backgroundColor: "#121218" },
-  date: { width: 52, alignItems: "center" },
-  days: { fontFamily: fonts.bold, fontSize: 17, color: colors.text, fontVariant: ["tabular-nums"] },
-  month: { ...type.caption, color: colors.accent },
-  divider: { width: StyleSheet.hairlineWidth, alignSelf: "stretch", backgroundColor: colors.borderStrong },
-  body: { flex: 1, gap: 2 },
-  titleRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  track: { width: 64, height: 48, opacity: 0.85 },
-  trackDim: { opacity: 0.4 },
-  podium: { flexDirection: "row", gap: space.md, marginTop: 2 },
-  podiumChip: { flexDirection: "row", alignItems: "center", gap: 4 },
-  podiumPos: { fontFamily: fonts.bold, fontSize: 12 },
-  podiumDot: { width: 3, height: 12, borderRadius: radius.sm },
-  podiumCode: { fontFamily: fonts.semibold, fontSize: 13, color: colors.textMuted },
+  row: { flexDirection: "row", gap: space.md, paddingVertical: space.xl },
+  next: { backgroundColor: t.band, marginHorizontal: -space.gutter, paddingHorizontal: space.gutter, overflow: "hidden" },
+  track: { position: "absolute", right: -10, top: 6, bottom: 6, width: 200, opacity: 0.35, alignItems: "flex-end" },
+  trackImage: { height: "100%" },
+  meta: { paddingTop: 6, gap: 6 },
+  right: { textAlign: "right" },
+  titles: { flex: 1, gap: 4 },
+  date: { fontFamily: fonts.mono, fontSize: 52, lineHeight: 56, letterSpacing: -1 },
+  name: { fontSize: 18, lineHeight: 22 },
+  chevron: { justifyContent: "center" },
 });

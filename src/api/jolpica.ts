@@ -92,3 +92,18 @@ export async function fetchConstructorStandings(season: Season = "current") {
   const list = data.MRData.StandingsTable.StandingsLists[0];
   return { round: list?.round, standings: list?.ConstructorStandings ?? [] };
 }
+
+export interface DriverRaceResult {
+  race: Race;
+  result: RaceResult;
+}
+
+/** One driver's classification in every completed round of a season. */
+export async function fetchDriverResults(season: Season, driverId: string): Promise<DriverRaceResult[]> {
+  const data = await get<RaceTableResponse<{ Results: RaceResult[] }>>(
+    `${season}/drivers/${driverId}/results.json?limit=100`,
+  );
+  return data.MRData.RaceTable.Races.flatMap(({ Results, ...race }) =>
+    Results[0] ? [{ race: race as Race, result: Results[0] }] : [],
+  );
+}
