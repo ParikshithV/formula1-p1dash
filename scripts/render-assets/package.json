@@ -1,0 +1,16 @@
+{
+  "name": "p1dash-render-assets",
+  "private": true,
+  "type": "module",
+  "description": "Builds the app's artwork: official formula1.com imagery (f1.mjs) and original 3D renders (render.mjs). Not part of the app bundle.",
+  "scripts": {
+    "render": "node render.mjs",
+    "f1": "node f1.mjs"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.0",
+    "playwright": "^1.50.0",
+    "sharp": "^0.34.0",
+    "three": "^0.170.0"
+  }
+}
